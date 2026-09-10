@@ -1,0 +1,219 @@
+{
+  "journeys": [
+    {
+      "id": "YTR-AMD-DEL-001",
+      "search": {
+        "from": "Gandhinagar",
+        "to": "Delhi",
+        "date": "2026-09-15",
+        "arriveBy": "18:00",
+        "passengers": 1,
+        "preference": "Best Overall",
+        "query": "I need to reach Delhi tomorrow around 6 PM"
+      },
+
+      "summary": {
+        "origin": "Gandhinagar",
+        "destination": "Delhi",
+        "departure": "2026-09-15T17:10:00+05:30",
+        "arrival": "2026-09-16T08:15:00+05:30",
+        "durationMinutes": 905,
+        "duration": "15h 05m",
+        "fare": 1580,
+        "currency": "INR",
+        "transfers": 2,
+        "status": "recommended"
+      },
+
+      "recommendations": [
+        {
+          "id": "best-overall",
+          "label": "Best Overall",
+          "reason": "Best balance of time, fare and transfers",
+          "durationMinutes": 905,
+          "duration": "15h 05m",
+          "fare": 1580,
+          "transfers": 2,
+          "departure": "5:10 PM",
+          "arrival": "8:15 AM",
+          "comfort": "High",
+          "reliability": 91,
+          "selected": true,
+          "route": [
+            "Gandhinagar",
+            "Ahmedabad Railway Station",
+            "Delhi Railway Station",
+            "Connaught Place"
+          ]
+        },
+
+        {
+          "id": "fastest",
+          "label": "Fastest",
+          "reason": "Reach Delhi earlier with a shorter total journey",
+          "durationMinutes": 765,
+          "duration": "12h 45m",
+          "fare": 2180,
+          "transfers": 2,
+          "departure": "6:00 PM",
+          "arrival": "6:45 AM",
+          "comfort": "High",
+          "reliability": 88,
+          "selected": false,
+          "route": [
+            "Gandhinagar",
+            "Ahmedabad Airport",
+            "Delhi Airport",
+            "Connaught Place"
+          ]
+        },
+
+        {
+          "id": "cheapest",
+          "label": "Cheapest",
+          "reason": "Lowest total fare",
+          "durationMinutes": 1030,
+          "duration": "17h 10m",
+          "fare": 890,
+          "transfers": 3,
+          "departure": "4:30 PM",
+          "arrival": "9:40 AM",
+          "comfort": "Medium",
+          "reliability": 84,
+          "selected": false,
+          "route": [
+            "Gandhinagar",
+            "Ahmedabad Railway Station",
+            "Jaipur Railway Station",
+            "Delhi Railway Station",
+            "Connaught Place"
+          ]
+        },
+
+        {
+          "id": "convenient",
+          "label": "Most Convenient",
+          "reason": "Only one major transfer",
+          "durationMinutes": 965,
+          "duration": "16h 05m",
+          "fare": 1720,
+          "transfers": 1,
+          "departure": "5:30 PM",
+          "arrival": "9:35 AM",
+          "comfort": "Very High",
+          "reliability": 94,
+          "selected": false,
+          "route": [
+            "Gandhinagar",
+            "Ahmedabad Airport",
+            "Delhi Airport",
+            "Connaught Place"
+          ]
+        }
+      ],
+
+      "segments": [
+        {
+          "id": "SEG-001",
+          "sequence": 1,
+          "mode": "cab",
+          "modeLabel": "Cab",
+          "from": {
+            "locationId": "LOC-GANDHINAGAR-HOME",
+            "name": "Gandhinagar",
+            "type": "home"
+          },
+          "to": {
+            "locationId": "LOC-AMD-STATION",
+            "name": "Ahmedabad Railway Station",
+            "type": "station"
+          },
+          "departure": "2026-09-15T17:10:00+05:30",
+          "arrival": "2026-09-15T17:55:00+05:30",
+          "durationMinutes": 45,
+          "duration": "45 min",
+          "fare": 420,
+          "currency": "INR",
+          "provider": "YATRA Cabs",
+          "vehicle": "Sedan",
+          "status": "available",
+          "color": "#F59E0B",
+          "coordinates": {
+            "from": [23.2156, 72.6369],
+            "to": [23.0225, 72.6269]
+          }
+        },
+
+        {
+          "id": "SEG-002",
+          "sequence": 2,
+          "mode": "train",
+          "modeLabel": "Train",
+          "from": {
+            "locationId": "LOC-AMD-STATION",
+            "name": "Ahmedabad Railway Station",
+            "type": "station"
+          },
+          "to": {
+            "locationId": "LOC-DEL-STATION",
+            "name": "New Delhi Railway Station",
+            "type": "station"
+          },
+          "serviceNumber": "12958",
+          "serviceName": "Swarna Jayanti Rajdhani",
+          "departure": "2026-09-15T18:40:00+05:30",
+          "arrival": "2026-09-16T07:50:00+05:30",
+          "durationMinutes": 790,
+          "duration": "13h 10m",
+          "fare": 920,
+          "currency": "INR",
+          "class": "3A",
+          "seatAvailability": "Available",
+          "status": "available",
+          "color": "#3678A6",
+          "coordinates": {
+            "from": [23.0225, 72.6269],
+            "to": [28.6437, 77.2197]
+          }
+        },
+
+        {
+          "id": "SEG-003",
+          "sequence": 3,
+          "mode": "metro",
+          "modeLabel": "Metro",
+          "from": {
+            "locationId": "LOC-DEL-STATION",
+            "name": "New Delhi Railway Station",
+            "type": "station"
+          },
+          "to": {
+            "locationId": "LOC-CP",
+            "name": "Connaught Place",
+            "type": "destination"
+          },
+          "departure": "2026-09-16T07:55:00+05:30",
+          "arrival": "2026-09-16T08:15:00+05:30",
+          "durationMinutes": 20,
+          "duration": "20 min",
+          "fare": 40,
+          "currency": "INR",
+          "provider": "Delhi Metro",
+          "status": "available",
+          "color": "#22C55E",
+          "coordinates": {
+            "from": [28.6437, 77.2197],
+            "to": [28.6315, 77.2167]
+          }
+        }
+      ],
+
+      "total": {
+        "transportFare": 1380,
+        "bookingFees": 100,
+        "totalFare": 1480,
+        "currency": "INR"
+      }
+    }
+  ]
+}

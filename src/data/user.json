@@ -1,0 +1,30 @@
+{
+  "user": {
+    "id": "USR-001",
+    "name": "Demo User",
+    "email": "demo@yatra.app",
+    "phone": "+91-9000000000",
+
+    "preferences": {
+      "defaultJourneyPreference": "Best Overall",
+      "preferredModes": [
+        "train",
+        "flight",
+        "cab",
+        "metro"
+      ],
+      "avoidLongTransfers": true,
+      "maxTransfers": 2,
+      "preferredCabType": "Sedan"
+    },
+
+    "passengers": [
+      {
+        "id": "PAX-001",
+        "name": "Demo User",
+        "age": 25,
+        "gender": "Female"
+      }
+    ]
+  }
+}

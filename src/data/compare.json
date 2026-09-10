@@ -1,0 +1,45 @@
+{
+  "comparison": {
+    "from": "Gandhinagar",
+    "to": "Delhi",
+
+    "options": [
+      {
+        "id": "TRAIN-OPTION",
+        "mode": "Train",
+        "duration": "14h 20m",
+        "durationMinutes": 860,
+        "fare": 1320,
+        "transfers": 2,
+        "departure": "5:10 PM",
+        "arrival": "8:15 AM",
+        "comfort": 4,
+        "reliability": 91
+      },
+      {
+        "id": "FLIGHT-OPTION",
+        "mode": "Flight",
+        "duration": "12h 45m",
+        "durationMinutes": 765,
+        "fare": 2180,
+        "transfers": 2,
+        "departure": "6:00 PM",
+        "arrival": "6:45 AM",
+        "comfort": 5,
+        "reliability": 88
+      },
+      {
+        "id": "BUS-OPTION",
+        "mode": "Bus",
+        "duration": "16h 30m",
+        "durationMinutes": 990,
+        "fare": 1100,
+        "transfers": 1,
+        "departure": "5:00 PM",
+        "arrival": "9:30 AM",
+        "comfort": 3,
+        "reliability": 82
+      }
+    ]
+  }
+}

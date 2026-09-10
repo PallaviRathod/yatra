@@ -1,0 +1,91 @@
+{
+  "services": [
+    {
+      "id": "CAB-AMD-001",
+      "mode": "cab",
+      "name": "YATRA Sedan",
+      "provider": "YATRA Cabs",
+      "vehicle": "Sedan",
+      "capacity": 4,
+      "fare": 420,
+      "currency": "INR",
+      "estimatedDuration": 45,
+      "rating": 4.7,
+      "reliability": 94,
+      "availability": "available",
+      "features": [
+        "Air conditioning",
+        "Door pickup",
+        "Driver tracking",
+        "Cashless payment"
+      ]
+    },
+
+    {
+      "id": "TRAIN-12958",
+      "mode": "train",
+      "name": "Swarna Jayanti Rajdhani",
+      "serviceNumber": "12958",
+      "provider": "Indian Railways",
+      "from": "Ahmedabad Railway Station",
+      "to": "New Delhi Railway Station",
+      "departure": "18:40",
+      "arrival": "07:50",
+      "duration": "13h 10m",
+      "fare": 920,
+      "currency": "INR",
+      "class": "3A",
+      "availability": "available",
+      "seats": 24,
+      "rating": 4.5,
+      "reliability": 91,
+      "features": [
+        "AC coach",
+        "Sleeper berth",
+        "Catering",
+        "Charging points"
+      ]
+    },
+
+    {
+      "id": "FLIGHT-AMD-DEL-001",
+      "mode": "flight",
+      "name": "YATRA Air 601",
+      "serviceNumber": "YA-601",
+      "provider": "YATRA Air",
+      "from": "Ahmedabad Airport",
+      "to": "Delhi Airport",
+      "departure": "18:00",
+      "arrival": "19:35",
+      "duration": "1h 35m",
+      "fare": 1890,
+      "currency": "INR",
+      "availability": "available",
+      "seats": 18,
+      "rating": 4.4,
+      "reliability": 88,
+      "baggage": "15 kg",
+      "features": [
+        "Cabin baggage",
+        "15 kg check-in",
+        "Online check-in"
+      ]
+    },
+
+    {
+      "id": "METRO-DEL-001",
+      "mode": "metro",
+      "name": "Delhi Metro",
+      "provider": "Delhi Metro",
+      "from": "New Delhi",
+      "to": "Rajiv Chowk",
+      "departure": "07:55",
+      "arrival": "08:15",
+      "duration": "20 min",
+      "fare": 40,
+      "currency": "INR",
+      "availability": "available",
+      "reliability": 96
+    }
+  ]
+}

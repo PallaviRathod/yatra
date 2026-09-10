@@ -1,0 +1,57 @@
+{
+  "bookings": [
+    {
+      "id": "BK-10001",
+      "journeyId": "YTR-AMD-DEL-001",
+      "status": "draft",
+      "passengerCount": 1,
+
+      "passengers": [
+        {
+          "id": "PAX-001",
+          "name": "Demo Passenger",
+          "age": 25,
+          "gender": "Female",
+          "phone": "+91-9000000000"
+        }
+      ],
+
+      "selectedServices": [
+        {
+          "segmentId": "SEG-001",
+          "serviceId": "CAB-AMD-001",
+          "status": "selected",
+          "fare": 420
+        },
+        {
+          "segmentId": "SEG-002",
+          "serviceId": "TRAIN-12958",
+          "status": "selected",
+          "fare": 920,
+          "class": "3A"
+        },
+        {
+          "segmentId": "SEG-003",
+          "serviceId": "METRO-DEL-001",
+          "status": "selected",
+          "fare": 40
+        }
+      ],
+
+      "pricing": {
+        "baseFare": 1380,
+        "bookingFee": 100,
+        "discount": 0,
+        "total": 1480,
+        "currency": "INR"
+      },
+
+      "payment": {
+        "status": "pending",
+        "method": null
+      },
+
+      "confirmation": null
+    }
+  ]
+}

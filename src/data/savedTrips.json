@@ -1,0 +1,17 @@
+{
+  "savedTrips": [
+    {
+      "id": "SAVED-001",
+      "journeyId": "YTR-AMD-DEL-001",
+      "title": "Gandhinagar to Delhi",
+      "from": "Gandhinagar",
+      "to": "Delhi",
+      "date": "2026-09-15",
+      "preference": "Best Overall",
+      "duration": "15h 05m",
+      "fare": 1580,
+      "status": "saved",
+      "savedAt": "2026-09-10T10:30:00+05:30"
+    }
+  ]
+}

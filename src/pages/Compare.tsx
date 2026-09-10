@@ -1,250 +1,397 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   ArrowRight,
+  CalendarDays,
   CarFront,
   Check,
-  IndianRupee,
+  Clock3,
   MapPin,
+  Plane,
+  Route,
   TrainFront,
+  Wallet,
 } from "lucide-react";
 
-const journeys = [
-  {
-    name: "Best Overall",
-    duration: "14h 20m",
-    fare: 1320,
-    transfers: 2,
-    departure: "5:10 PM",
-    arrival: "8:15 AM",
-    description: "Best balance of time, price and comfort",
-  },
-  {
-    name: "Fastest",
-    duration: "12h 45m",
-    fare: 2180,
-    transfers: 2,
-    departure: "6:00 PM",
-    arrival: "6:45 AM",
-    description: "Reach your destination sooner",
-  },
-  {
-    name: "Cheapest",
-    duration: "17h 10m",
-    fare: 890,
-    transfers: 3,
-    departure: "4:30 PM",
-    arrival: "9:40 AM",
-    description: "Lowest fare for the journey",
-  },
-  {
-    name: "Most Convenient",
-    duration: "15h 05m",
-    fare: 1580,
-    transfers: 1,
-    departure: "5:30 PM",
-    arrival: "8:35 AM",
-    description: "Fewer changes and easier transfers",
-  },
-];
+import data from "../data/journeys.json";
 
-const steps = [
-  ["Gandhinagar", "Leave home", MapPin],
-  ["Ahmedabad Railway Station", "Cab · 45 min", CarFront],
-  ["Train 12958", "Ahmedabad → Delhi", TrainFront],
-  ["Delhi Railway Station", "Arrive Delhi", TrainFront],
-  ["Connaught Place", "Final destination", MapPin],
-];
+const journey = data.journeys[0];
+const options = journey.recommendations;
+
+const modes: Record<
+  string,
+  { icon: typeof MapPin; color: string }
+> = {
+  cab: { icon: CarFront, color: "#F59E0B" },
+  train: { icon: TrainFront, color: "#3678A6" },
+  flight: { icon: Plane, color: "#8B5CF6" },
+  metro: { icon: Route, color: "#22C55E" },
+};
+
+const money = (value: number) =>
+  new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(value);
 
 const Compare = () => {
-  const [active, setActive] = useState(0);
-  const journey = journeys[active];
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const state = location.state as { selected?: string } | undefined;
+
+  const initial = Math.max(
+    options.findIndex((item) => item.id === state?.selected),
+    0
+  );
+
+  const [active, setActive] = useState(initial);
+  const selected = options[active];
 
   return (
-    <main className="min-h-screen bg-[#f6f3eb] text-[#16294a] p-6 md:p-12 lg:p-16 mt-10">
-      <header className="border-b border-[#16294a]/10 bg-[#fffdf7] rounded-2xl">
-        <div className="mx-auto max-w-7xl p-6 md:p-10">
-          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#3678a6]">
-                Compare
-              </p>
+    <main className="min-h-screen bg-[#f6f3eb] pt-24 text-[#172d43]">
+      {/* Header */}
+      <header className="border-b border-white/10 bg-[#102942] px-5 py-12 text-white sm:px-8 md:px-12 lg:px-16">
+        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f97316]">
+              Compare
+            </p>
 
-              <h1 className="mt-2 font-serif text-4xl md:text-5xl">
-                Find the journey that fits you.
-              </h1>
+            <h1 className="mt-2 font-serif text-4xl sm:text-5xl">
+              Find the journey that fits you.
+            </h1>
 
-              <p className="mt-3 max-w-xl text-sm leading-6 text-slate-500">
-                Compare every option by time, fare, transfers and convenience.
-              </p>
-            </div>
+            <p className="mt-3 max-w-xl text-sm leading-6 text-white/55">
+              Compare every option by time, fare, transfers and convenience.
+            </p>
+          </div>
 
-            <div className="rounded-xl border border-[#16294a]/10 bg-white p-4">
-              <p className="text-[10px] uppercase tracking-wider text-slate-400">
-                Journey
-              </p>
-              <p className="mt-1 font-semibold">Gandhinagar → Delhi</p>
-              <p className="mt-1 text-xs text-slate-400">
-                Tomorrow · Arrive around 6 PM
-              </p>
-            </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <p className="text-[10px] uppercase tracking-wider text-white/35">
+              Journey
+            </p>
+
+            <p className="mt-1 font-semibold">
+              {journey.summary.origin} → {journey.summary.destination}
+            </p>
+
+            <p className="mt-1 text-xs text-white/40">
+              {journey.search.date} · Arrive around{" "}
+              {journey.search.arriveBy}
+            </p>
           </div>
         </div>
       </header>
 
-      <section className="mx-auto max-w-7xl p-6 md:p-10">
-        {/* Journey options */}
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-          {journeys.map((item, index) => {
-            const selected = active === index;
+      <section className="mx-auto max-w-7xl px-5 py-10 sm:px-8">
+        {/* Options */}
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {options.map((item, index) => {
+            const activeItem = index === active;
 
             return (
               <motion.button
-                key={item.name}
+                key={item.id}
                 onClick={() => setActive(index)}
-                whileHover={{ y: -3 }}
+                whileHover={{ y: -4 }}
                 whileTap={{ scale: 0.98 }}
-                className={`rounded-2xl border p-5 text-left transition ${
-                  selected
-                    ? "border-[#3678a6] bg-white shadow-md"
-                    : "border-[#16294a]/10 bg-white/60 hover:bg-white"
+                className={`relative rounded-3xl border p-5 text-left ${
+                  activeItem
+                    ? "border-[#172d43] bg-[#102942] text-white shadow-xl"
+                    : "border-[#172d43]/10 bg-white"
                 }`}
               >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#3678a6]">
-                    {item.name}
-                  </span>
+                {activeItem && (
+                  <motion.div
+                    layoutId="compare-active"
+                    className="absolute inset-0 rounded-3xl border-2 border-[#f97316]"
+                  />
+                )}
 
-                  {selected && (
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#e8f1ef]">
-                      <Check size={14} />
+                <div className="relative">
+                  <div className="flex items-start justify-between gap-3">
+                    <p
+                      className={`text-xs font-bold uppercase tracking-wider ${
+                        activeItem
+                          ? "text-[#f97316]"
+                          : "text-[#172d43]/45"
+                      }`}
+                    >
+                      {item.label}
+                    </p>
+
+                    {activeItem && (
+                      <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#f97316]">
+                        <Check className="h-3.5 w-3.5 text-white" />
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="mt-5 text-3xl font-bold">
+                    {item.duration}
+                  </p>
+
+                  <div
+                    className={`mt-4 flex justify-between border-t pt-4 ${
+                      activeItem
+                        ? "border-white/10"
+                        : "border-[#172d43]/10"
+                    }`}
+                  >
+                    <span className="flex items-center gap-1 font-semibold">
+                      <Wallet className="h-3.5 w-3.5" />
+                      {money(item.fare)}
                     </span>
-                  )}
+
+                    <span
+                      className={
+                        activeItem
+                          ? "text-white/45"
+                          : "text-[#172d43]/40"
+                      }
+                    >
+                      {item.transfers} transfers
+                    </span>
+                  </div>
+
+                  <p
+                    className={`mt-3 text-xs leading-5 ${
+                      activeItem
+                        ? "text-white/50"
+                        : "text-[#172d43]/45"
+                    }`}
+                  >
+                    {item.reason}
+                  </p>
                 </div>
-
-                <p className="mt-5 text-2xl font-semibold">
-                  {item.duration}
-                </p>
-
-                <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-4">
-                  <span className="flex items-center gap-1 font-medium">
-                    <IndianRupee size={14} />
-                    {item.fare}
-                  </span>
-
-                  <span className="text-xs text-slate-400">
-                    {item.transfers} transfers
-                  </span>
-                </div>
-
-                <p className="mt-3 text-xs leading-5 text-slate-400">
-                  {item.description}
-                </p>
               </motion.button>
             );
           })}
         </div>
 
         {/* Selected journey */}
-        <motion.section
-          key={active}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-8 overflow-hidden rounded-2xl border border-[#16294a]/10 bg-white"
-        >
-          <div className="flex flex-col gap-5 border-b border-slate-100 p-6 md:flex-row md:items-center md:justify-between">
-            <div>
-              <p className="text-[10px] uppercase tracking-[.18em] text-slate-400">
-                Selected journey
+        <AnimatePresence mode="wait">
+          <motion.section
+            key={selected.id}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="mt-8 overflow-hidden rounded-3xl border border-[#172d43]/10 bg-white"
+          >
+            <div className="flex flex-col justify-between gap-5 border-b border-[#172d43]/10 p-6 md:flex-row md:items-center md:p-8">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#f97316]">
+                  Selected journey
+                </p>
+
+                <h2 className="mt-1 font-serif text-3xl">
+                  {selected.label}
+                </h2>
+
+                <p className="mt-1 text-sm text-[#172d43]/45">
+                  {selected.reason}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-3 gap-5">
+                <Info
+                  icon={Clock3}
+                  label="Departure"
+                  value={selected.departure}
+                />
+
+                <Info
+                  icon={CalendarDays}
+                  label="Arrival"
+                  value={selected.arrival}
+                />
+
+                <Info
+                  icon={Wallet}
+                  label="Fare"
+                  value={money(selected.fare)}
+                />
+              </div>
+            </div>
+
+            {/* Timeline */}
+            <div className="p-6 sm:p-8">
+              <p className="mb-6 text-xs font-bold uppercase tracking-[0.18em] text-[#172d43]/35">
+                Journey route
               </p>
 
-              <h2 className="mt-1 text-2xl font-semibold">
-                {journey.name}
+              <div className="relative">
+                <div className="absolute bottom-5 left-4 top-5 w-0.5 bg-[#172d43]/10" />
+
+                {journey.segments.map((segment, index) => {
+                  const config = modes[segment.mode] || modes.cab;
+                  const Icon = config.icon;
+
+                  return (
+                    <motion.div
+                      key={segment.id}
+                      initial={{ opacity: 0, x: -15 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.08 }}
+                      className="relative flex gap-5 pb-7 last:pb-0"
+                    >
+                      <span
+                        className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-4 border-white"
+                        style={{ background: config.color }}
+                      >
+                        <Icon className="h-3.5 w-3.5 text-white" />
+                      </span>
+
+                      <div className="flex flex-1 flex-col justify-between gap-3 sm:flex-row">
+                        <div>
+                          <p className="text-xs font-bold uppercase tracking-wider text-[#172d43]/35">
+                            {segment.modeLabel}
+                          </p>
+
+                          <p className="mt-1 font-semibold">
+                            {segment.from.name}
+                          </p>
+
+                          <div className="my-1 flex items-center gap-2">
+                            <ArrowRight className="h-3.5 w-3.5 text-[#172d43]/25" />
+
+                            <span className="text-sm text-[#172d43]/55">
+                              {segment.to.name}
+                            </span>
+                          </div>
+
+                          <div className="flex flex-wrap gap-2">
+                            <Badge
+                              value={segment.duration}
+                              color={config.color}
+                            />
+
+                            {segment.serviceNumber && (
+                              <Badge value={segment.serviceNumber} />
+                            )}
+
+                            {segment.provider && (
+                              <Badge value={segment.provider} />
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <p className="text-sm font-bold">
+                            {new Date(
+                              segment.departure
+                            ).toLocaleTimeString("en-IN", {
+                              hour: "numeric",
+                              minute: "2-digit",
+                            })}
+                          </p>
+
+                          <p className="mt-1 text-xs text-[#172d43]/40">
+                            {money(segment.fare)}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-col gap-3 border-t border-[#172d43]/10 p-5 sm:flex-row sm:justify-end">
+              <button
+                onClick={() => navigate("/saved")}
+                className="rounded-xl border border-[#172d43]/10 px-5 py-3 text-sm font-semibold"
+              >
+                Save Trip
+              </button>
+
+              <motion.button
+                whileTap={{ scale: 0.96 }}
+                onClick={() =>
+                  navigate("/plan", {
+                    state: {
+                      from: journey.search.from,
+                      destination: journey.search.to,
+                      date: journey.search.date,
+                      time: journey.search.arriveBy,
+                      preference: selected.label,
+                    },
+                  })
+                }
+                className="rounded-xl bg-[#102942] px-5 py-3 text-sm font-bold text-white"
+              >
+                Choose this journey
+                <ArrowRight className="ml-2 inline h-4 w-4" />
+              </motion.button>
+            </div>
+          </motion.section>
+        </AnimatePresence>
+
+        {/* Comparison */}
+        <section className="mt-10">
+          <div className="mb-4 flex items-end justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#f97316]">
+                Side-by-side
+              </p>
+              <h2 className="mt-1 font-serif text-2xl">
+                Compare details
               </h2>
             </div>
 
-            <div className="flex items-center gap-6">
-              <Info label="Departure" value={journey.departure} />
-              <Info label="Arrival" value={journey.arrival} />
-              <Info label="Fare" value={`₹${journey.fare}`} />
-            </div>
+            <span className="text-xs text-[#172d43]/40">
+              {options.length} options
+            </span>
           </div>
 
-          {/* Timeline */}
-          <div className="p-6 md:p-8">
-            <div className="relative">
-              <div className="absolute bottom-4 left-3 top-4 w-px bg-slate-200" />
-
-              {steps.map(([title, subtitle, Icon], index) => (
-                <motion.div
-                  key={title}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.08 }}
-                  className="relative flex gap-5 pb-8 last:pb-0"
-                >
-                  <span className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#e8f1ef] text-[#3678a6]">
-                    <Icon size={13} />
-                  </span>
-
-                  <div>
-                    <p className="text-sm font-semibold">{title}</p>
-                    <p className="mt-1 text-xs text-slate-400">{subtitle}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3 border-t border-slate-100 p-5 sm:flex-row sm:justify-end">
-            <button className="rounded-xl border border-slate-200 p-3 text-sm cursor-pointer">
-              Save Trip
-            </button>
-
-            <motion.button
-              whileTap={{ scale: 0.96 }}
-              className="rounded-xl bg-[#16294a] p-3 text-sm font-semibold text-white cursor-pointer"
-            >
-              Choose this journey
-              <ArrowRight className="ml-2 inline" size={15} />
-            </motion.button>
-          </div>
-        </motion.section>
-
-        {/* Comparison table */}
-        <section className="mt-8">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Compare details</h2>
-            <span className="text-xs text-slate-400">4 options</span>
-          </div>
-
-          <div className="overflow-x-auto rounded-2xl border border-[#16294a]/10 bg-white">
-            <table className="w-full min-w-[650px] text-sm">
+          <div className="overflow-x-auto rounded-3xl border border-[#172d43]/10 bg-white">
+            <table className="w-full min-w-[700px] text-sm">
               <thead>
-                <tr className="border-b border-slate-100 text-left text-[11px] uppercase tracking-wider text-slate-400">
-                  <th className="p-5">Journey</th>
-                  <th className="p-5">Duration</th>
-                  <th className="p-5">Fare</th>
-                  <th className="p-5">Transfers</th>
-                  <th className="p-5">Departure</th>
+                <tr className="border-b border-[#172d43]/10 text-left text-[10px] uppercase tracking-wider text-[#172d43]/40">
+                  {[
+                    "Journey",
+                    "Duration",
+                    "Fare",
+                    "Transfers",
+                    "Departure",
+                    "Arrival",
+                    "Reliability",
+                  ].map((heading) => (
+                    <th key={heading} className="p-5">
+                      {heading}
+                    </th>
+                  ))}
                 </tr>
               </thead>
 
               <tbody>
-                {journeys.map((item, index) => (
-                  <tr
-                    key={item.name}
+                {options.map((item, index) => (
+                  <motion.tr
+                    key={item.id}
                     onClick={() => setActive(index)}
-                    className={`cursor-pointer border-b border-slate-100 last:border-0 ${
-                      active === index ? "bg-[#f4f8f7]" : "hover:bg-slate-50"
+                    className={`cursor-pointer border-b border-[#172d43]/10 last:border-0 ${
+                      active === index
+                        ? "bg-[#102942]/5"
+                        : "hover:bg-[#172d43]/[0.02]"
                     }`}
                   >
-                    <td className="p-5 font-medium">{item.name}</td>
+                    <td className="p-5 font-semibold">{item.label}</td>
                     <td className="p-5">{item.duration}</td>
-                    <td className="p-5">₹{item.fare}</td>
+                    <td className="p-5">{money(item.fare)}</td>
                     <td className="p-5">{item.transfers}</td>
                     <td className="p-5">{item.departure}</td>
-                  </tr>
+                    <td className="p-5">{item.arrival}</td>
+                    <td className="p-5">
+                      <span className="font-semibold text-[#22C55E]">
+                        {item.reliability}%
+                      </span>
+                    </td>
+                  </motion.tr>
                 ))}
               </tbody>
             </table>
@@ -255,13 +402,47 @@ const Compare = () => {
   );
 };
 
-const Info = ({ label, value }: { label: string; value: string }) => (
+const Info = ({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof Clock3;
+  label: string;
+  value: string;
+}) => (
   <div>
-    <p className="text-[10px] uppercase tracking-wider text-slate-400">
+    <Icon className="h-4 w-4 text-[#f97316]" />
+    <p className="mt-2 text-[10px] uppercase tracking-wider text-[#172d43]/35">
       {label}
     </p>
-    <p className="mt-1 text-sm font-semibold">{value}</p>
+    <p className="mt-1 text-sm font-bold">{value}</p>
   </div>
+);
+
+const Badge = ({
+  value,
+  color,
+}: {
+  value: string;
+  color?: string;
+}) => (
+  <span
+    className="rounded-full px-3 py-1 text-[0.65rem] font-semibold"
+    style={
+      color
+        ? {
+            color,
+            background: `${color}15`,
+          }
+        : {
+            color: "#172d43aa",
+            background: "#172d4308",
+          }
+    }
+  >
+    {value}
+  </span>
 );
 
 export default Compare;

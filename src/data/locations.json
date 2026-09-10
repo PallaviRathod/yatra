@@ -1,0 +1,68 @@
+{
+  "locations": [
+    {
+      "id": "LOC-GANDHINAGAR-HOME",
+      "name": "Gandhinagar",
+      "type": "home",
+      "city": "Gandhinagar",
+      "state": "Gujarat",
+      "country": "India",
+      "coordinates": [23.2156, 72.6369]
+    },
+
+    {
+      "id": "LOC-AMD-STATION",
+      "name": "Ahmedabad Railway Station",
+      "type": "railway_station",
+      "city": "Ahmedabad",
+      "state": "Gujarat",
+      "country": "India",
+      "coordinates": [23.0225, 72.6269]
+    },
+
+    {
+      "id": "LOC-AMD-AIRPORT",
+      "name": "Sardar Vallabhbhai Patel International Airport",
+      "shortName": "Ahmedabad Airport",
+      "type": "airport",
+      "city": "Ahmedabad",
+      "state": "Gujarat",
+      "country": "India",
+      "code": "AMD",
+      "coordinates": [23.0772, 72.6347]
+    },
+
+    {
+      "id": "LOC-DEL-AIRPORT",
+      "name": "Indira Gandhi International Airport",
+      "shortName": "Delhi Airport",
+      "type": "airport",
+      "city": "Delhi",
+      "state": "Delhi",
+      "country": "India",
+      "code": "DEL",
+      "coordinates": [28.5562, 77.1000]
+    },
+
+    {
+      "id": "LOC-DEL-STATION",
+      "name": "New Delhi Railway Station",
+      "type": "railway_station",
+      "city": "Delhi",
+      "state": "Delhi",
+      "country": "India",
+      "code": "NDLS",
+      "coordinates": [28.6437, 77.2197]
+    },
+
+    {
+      "id": "LOC-CP",
+      "name": "Connaught Place",
+      "type": "destination",
+      "city": "Delhi",
+      "state": "Delhi",
+      "country": "India",
+      "coordinates": [28.6315, 77.2167]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "planningSteps": [
+    {
+      "id": 1,
+      "message": "Understanding your request…",
+      "duration": 700
+    },
+    {
+      "id": 2,
+      "message": "Checking train availability…",
+      "duration": 900
+    },
+    {
+      "id": 3,
+      "message": "Checking flight options…",
+      "duration": 800
+    },
+    {
+      "id": 4,
+      "message": "Finding first-mile connectivity…",
+      "duration": 700
+    },
+    {
+      "id": 5,
+      "message": "Comparing 4 possible routes…",
+      "duration": 900
+    },
+    {
+      "id": 6,
+      "message": "Optimizing transfers…",
+      "duration": 800
+    },
+    {
+      "id": 7,
+      "message": "Building your door-to-door plan…",
+      "duration": 1000
+    }
+  ]
+}
